@@ -11,7 +11,7 @@ export default function Header() {
       <div className="header-wrapper">
         <FileUploader />
         <form action="">
-          <Button>
+          <Button type="submit" className="sign-out-button">
             <Image src="/assets/icons/logout.svg" alt="sign-out-button" width={24} height={24} className="w-6"/>
           </Button>
         </form>
