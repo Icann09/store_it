@@ -1,10 +1,10 @@
 "use server"
 import { ID, Query } from "node-appwrite";
-import { createAdminClient } from ".."
+import { createAdminClient, createSessionClient } from ".."
 import { appwriteConfig } from "../appwrite/config";
 import { parseStringify } from "../utils";
-import { string } from "zod";
 import { cookies } from "next/headers";
+import { avatarPlaceholderUrl } from "@/constants";
 
 
 const getUserByEmail = async (email: string) => {
@@ -45,7 +45,7 @@ export const createAccount = async ({ fullName, email }: { fullName: string, ema
       {
         fullName,
         email,
-        avatar: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png",
+        avatar: avatarPlaceholderUrl,
         accountId,
       }
     );
@@ -72,3 +72,15 @@ export const verifyOtp = async ({ accountId, password }: {
       return null;
     }
   }
+
+export const getCurrentUser = async () => {
+  const { database, account } = await createSessionClient();
+  const result = await account.get();
+  const user = await database.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.usersCollectionId,
+    [Query.equal("accountId", [result.$id])],
+  );
+  if (user.total <= 0) return null;
+  return parseStringify(user.documents[0]);
+}
