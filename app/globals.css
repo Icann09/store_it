@@ -366,7 +366,7 @@
     @apply flex-center min-w-fit gap-4 ;
   }
   .sign-out-button {
-    @apply flex-center h-[52px] min-w-[54px] items-center rounded-full bg-brand/10 p-0 text-brand shadow-none transition-all hover:bg-brand/20 ;
+    @apply flex-center h-[52px] min-w-[54px] items-center rounded-full bg-brand/10 p-0 text-brand shadow-none transition-all hover:bg-brand-100/20 ;
   }
 
   /* Mobile Navigation */
