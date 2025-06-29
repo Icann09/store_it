@@ -8,10 +8,11 @@ declare interface ActionType {
   value: string;
 }
 
-declare interface SearchParamProps {
-  params?: Promise<SegmentParams>;
-  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+interface SearchParamProps {
+  params?: { [key: string]: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }
+
 
 declare interface UploadFileProps {
   file: File;

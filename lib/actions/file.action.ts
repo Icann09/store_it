@@ -3,9 +3,10 @@
 import { createAdminClient } from "..";
 import { InputFile } from "node-appwrite/file"
 import { appwriteConfig } from "../appwrite/config";
-import { ID } from "node-appwrite";
+import { ID, Models, Query } from "node-appwrite";
 import { constructFileUrl, getFileType, parseStringify } from "../utils";
 import { revalidatePath } from "next/cache";
+import { getCurrentUser } from "./user.action";
 
 const handleError = (error: unknown, message: string) => {
   console.log(error, message);
@@ -47,5 +48,32 @@ export const uploadFile = async ({ file, ownerId, accountId, path }: UploadFileP
     return  parseStringify(newFile); 
   } catch (error) {
     handleError(error, "Failed to upload file");
+  }
+}
+
+const createQueries = (currenUser: Models.Document) => {
+  const quries = [
+    Query.or([
+      Query.equal("owner", [currenUser.$id]),
+      Query.contains("users", [currenUser.email]),
+  ]),
+  ];
+  return quries;
+}
+
+export const getFiles = async () => {
+  const { database } = await createAdminClient();
+  try {
+    const currentUser = await getCurrentUser();
+    if (!currentUser) throw new Error("User not found");
+    const quries = createQueries(currentUser);
+    const files = await database.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.filesCollectionId,
+      quries,
+    );
+    return parseStringify(files);
+  } catch (error) {
+    handleError(error, "Failed to get files")
   }
 }
