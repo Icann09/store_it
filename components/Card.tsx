@@ -3,14 +3,14 @@ import { Models } from "node-appwrite";
 import Thumbnail from "./Thumbnail";
 import { convertFileSize } from "@/lib/utils";
 import FormatedDateTime from "./FormatedDateTime";
+import ActionDropdown from "./ActionDropdown";
 
 
 export default function Card({ file }: { file: Models.Document }) {
-  console.log(file);
   return (
     <Link href={file.url} target="_blank" className="file-card" rel="noopener noreferrer">
       <div className="flex justify-between">
-        <Thumbnail 
+        <Thumbnail  
           type={file.type} 
           extension={file.extension}
           url={file.url}
@@ -18,7 +18,7 @@ export default function Card({ file }: { file: Models.Document }) {
           // imageClassname="!size-11"
         />
         <div className="flex flex-col items-end justify-between">
-          Actions dropdown .....
+          <ActionDropdown file={file}/>
           <p className="body-1">
             {convertFileSize(file.size)}
           </p>
