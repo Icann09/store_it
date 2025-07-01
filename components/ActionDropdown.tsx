@@ -3,7 +3,6 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -26,7 +25,8 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { renameFile } from "@/lib/actions/file.action";
 import { usePathname } from "next/navigation";
-import { TypeOf } from "zod";
+import { FileDetails } from "./ActionsModalContent";
+
 
 
 export default function ActionDropdown({ file }: { file: Models.Document}) {
@@ -66,6 +66,7 @@ export default function ActionDropdown({ file }: { file: Models.Document}) {
         <DialogHeader>
           <DialogTitle>{label}</DialogTitle>
           {value === "rename" && <Input type="text" value={name} onChange={(e) => setName(e.target.value)}/>}
+          {value && "details" && <FileDetails file={file}/>}
         </DialogHeader>
         {["rename", "delete", "share"].includes(value) && (
           <DialogFooter className="flex flex-col gap-3 md:flex-row">
