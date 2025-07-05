@@ -38,10 +38,11 @@ export default function OTPModal({ email, accountId }: { email: string, accountI
       console.log("Failed to verify OTP", error);
     }
     setIsLoading(false);
-  }
+  };
+
   const handleResendOtp = async () => {
     await sendEmailOTP({email});
-  }
+  };
 
   return (
     <div>
