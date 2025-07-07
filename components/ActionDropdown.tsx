@@ -101,9 +101,17 @@ export default function ActionDropdown({ file }: { file: Models.Document}) {
     <div>
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
-          <DropdownMenuTrigger className="shad-no-focus">
-            <Image src="/assets/icons/dots.svg" alt="dots" width={34} height={34}/>
-          </DropdownMenuTrigger>
+        <DropdownMenuTrigger asChild>
+          <button className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100">
+            <Image
+              src="/assets/icons/dots.svg"
+              alt="dots"
+              className="w-5 h-5 object-contain"
+              width={34}
+              height={34}
+            />
+          </button>
+        </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel className="max-w-[200px] truncate">{file.name}</DropdownMenuLabel>
             <DropdownMenuSeparator />
