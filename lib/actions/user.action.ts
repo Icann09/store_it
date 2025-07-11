@@ -77,15 +77,19 @@ export const verifyOtp = async ({ accountId, password }: {
   }
 
 export const getCurrentUser = async () => {
-  const { database, account } = await createSessionClient();
-  const result = await account.get();
-  const user = await database.listDocuments(
-    appwriteConfig.databaseId,
-    appwriteConfig.usersCollectionId,
-    [Query.equal("accountId", [result.$id])],
-  );
-  if (user.total <= 0) return null;
-  return parseStringify(user.documents[0]);
+  try {
+    const { database, account } = await createSessionClient();
+    const result = await account.get();
+    const user = await database.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.usersCollectionId,
+      [Query.equal("accountId", [result.$id])],
+    );
+    if (user.total <= 0) return null;
+    return parseStringify(user.documents[0]);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export const signOutUser = async () => {
