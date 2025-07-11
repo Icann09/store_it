@@ -63,7 +63,7 @@ export const verifyOtp = async ({ accountId, password }: {
     try {
       const { account } = await createAdminClient();
       const session = await account.createSession(accountId, password);
-      (await cookies()).set("appwrite-session", session.secret, {
+      (await cookies()).set("appwrite-session", session.$id, {
         path: "/",
         httpOnly: true,
         sameSite: "strict",
