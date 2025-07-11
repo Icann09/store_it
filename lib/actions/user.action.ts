@@ -63,7 +63,7 @@ export const verifyOtp = async ({ accountId, password }: {
     try {
       const { account } = await createAdminClient();
       const session = await account.createSession(accountId, password);
-      (await cookies()).set("appwrite-session", session.$id, {
+      (await cookies()).set("appwrite-session", session.secret, {
         path: "/",
         httpOnly: true,
         sameSite: "strict",
@@ -76,25 +76,17 @@ export const verifyOtp = async ({ accountId, password }: {
     }
   }
 
-  export const getCurrentUser = async () => {
-    try {
-      const { database, account } = await createSessionClient();
-      const result = await account.get();
-  
-      const user = await database.listDocuments(
-        appwriteConfig.databaseId,
-        appwriteConfig.usersCollectionId,
-        [Query.equal("accountId", [result.$id])]
-      );
-  
-      if (user.total <= 0) return null;
-      return parseStringify(user.documents[0]);
-    } catch (error) {
-      console.error("Failed to get current user:", error);
-      return null;
-    }
-  };
-  
+export const getCurrentUser = async () => {
+  const { database, account } = await createSessionClient();
+  const result = await account.get();
+  const user = await database.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.usersCollectionId,
+    [Query.equal("accountId", [result.$id])],
+  );
+  if (user.total <= 0) return null;
+  return parseStringify(user.documents[0]);
+}
 
 export const signOutUser = async () => {
   const account = await createSessionClient();
