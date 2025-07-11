@@ -76,27 +76,17 @@ export const verifyOtp = async ({ accountId, password }: {
     }
   }
 
-  export const getCurrentUser = async () => {
-    try {
-      const { database, account } = await createSessionClient();
-      const result = await account.get();
-  
-      const user = await database.listDocuments(
-        appwriteConfig.databaseId,
-        appwriteConfig.usersCollectionId,
-        [Query.equal("accountId", [result.$id])],
-      );
-  
-      if (user.total === 0) return null;
-      return parseStringify(user.documents[0]);
-  
-    } catch (error: any) {
-      if (error.code === 401) return null;
-      console.error("Error getting current user:", error);
-      return null;
-    }
-  }
-  
+export const getCurrentUser = async () => {
+  const { database, account } = await createSessionClient();
+  const result = await account.get();
+  const user = await database.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.usersCollectionId,
+    [Query.equal("accountId", [result.$id])],
+  );
+  if (user.total <= 0) return null;
+  return parseStringify(user.documents[0]);
+}
 
 export const signOutUser = async () => {
   const account = await createSessionClient();
