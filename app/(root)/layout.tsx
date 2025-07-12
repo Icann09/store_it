@@ -9,7 +9,7 @@ import { Toaster } from "@/components/ui/sonner"
 
 export default async function layout({ children }: { children: React.ReactNode }) {
   const currentUser = await getCurrentUser();
-  console.log("current user is", currentUser);
+  // console.log("current user is", currentUser);
   if (!currentUser) redirect("/sign-in");
 
   return (
