@@ -85,7 +85,7 @@ export const verifyOtp = async ({ accountId, password }: {
       const user = await database.listDocuments(
         appwriteConfig.databaseId,
         appwriteConfig.usersCollectionId,
-        [Query.equal("accountId", [result.$id])]
+        [Query.equal("accountId", result.$id)]
       );
       console.log("User documents:", user.documents);
   
