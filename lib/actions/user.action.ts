@@ -93,7 +93,6 @@ export const verifyOtp = async ({ accountId, password }: {
       return parseStringify(user.documents[0]);
     } catch (error) {
       console.error("Failed to get current user:",error);
-      return null;
     }
   };
   
