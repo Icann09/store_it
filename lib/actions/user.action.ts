@@ -80,7 +80,6 @@ export const verifyOtp = async ({ accountId, password }: {
     try {
       const { database, account } = await createSessionClient();
       const result = await account.get();
-      console.log("Account result:", result);
   
       const user = await database.listDocuments(
         appwriteConfig.databaseId,
